@@ -416,3 +416,21 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+CMakeSettings.json
+
+# Build output directory (CMake out-of-source builds)
+build/
+out/
+
+# raylib / game specific
+*.exe
+*.dll
+*.lib
+*.a
+*.so
