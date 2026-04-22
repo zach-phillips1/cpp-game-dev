@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <chrono>
+#include <thread>
 
 struct GameState {
 	int trees_available;
@@ -35,11 +37,19 @@ int main() {
 		.lumberjacks = 1,
 		.sawyers = 1
 	};
-	std::cout << "Trees available: " << state.trees_available << std::endl;
-	std::cout << "Logs: " << state.logs << std::endl;
-	std::cout << "Planks: " << state.planks << std::endl;
-	std::cout << "Arborists: " << state.arborists << std::endl;
-	std::cout << "Lumberjacks: " << state.lumberjacks << std::endl;
-	std::cout << "Sawyers: " << state.sawyers << std::endl;
+
+	auto now = std::chrono::steady_clock::now();
+	int tick_count = 0;
+
+	while (true) {
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // Simulate time passing
+		tick(state);
+		tick_count++;
+		std::cout << "Tick: " << tick_count << " | Trees: " << state.trees_available
+				  << " | Logs: " << state.logs
+			<< " | Planks: " << state.planks << std::endl;
+		
+	}
+
 	return 0;
 }
