@@ -14,4 +14,4 @@ struct GameState {
 void tick(GameState& state);
 void saveGame(const GameState& state, const std::string& filename);
 void loadGame(GameState& state, const std::string& filename);
-bool handleInput(GameState& state);
+bool handle_input(GameState& state);
