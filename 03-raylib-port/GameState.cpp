@@ -1,13 +1,8 @@
 #include <iostream>
 #include <algorithm>
-#include <chrono>
-#include <thread>
 #include <conio.h>
 #include <fstream>
 #include "GameState.h"
-
-void saveGame(const GameState& state, const std::string& filename);
-void loadGame(GameState& state, const std::string& filename);
 
 void tick(GameState& state) {
 	// Simulate the passage of time and update the game state
@@ -25,6 +20,7 @@ void tick(GameState& state) {
 	}
 }
 
+// TODO: Move handle_input to renderer.cpp and make it more modular when included in raylib.
 bool handle_input(GameState& state) {
 	if (_kbhit()) {
 		char input = _getch();
