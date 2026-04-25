@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <conio.h>
 
 struct GameState {
 	int trees_available;
@@ -28,6 +29,43 @@ void tick(GameState& state) {
 	}
 }
 
+void handle_input(GameState& state) {
+	if (_kbhit()) {
+		char input = _getch();
+		switch (input) {
+			case 'a': // Add an arborist
+				if (state.planks >= 5) {
+					state.planks -= 5;
+					state.arborists++;
+					std::cout << "Added an arborist!" << std::endl;
+				} else {
+					std::cout << "Not enough planks to add an arborist!" << std::endl;
+				}
+				break;
+			case 'l': // Add a lumberjack
+				if (state.planks >= 5) {
+					state.planks -= 5;
+					state.lumberjacks++;
+					std::cout << "Added a lumberjack!" << std::endl;
+				} else {
+					std::cout << "Not enough planks to add a lumberjack!" << std::endl;
+				}
+				break;
+			case 's': // Add a sawyer
+				if (state.planks >= 5) {
+					state.planks -= 5;
+					state.sawyers++;
+					std::cout << "Added a sawyer!" << std::endl;
+				} else {
+					std::cout << "Not enough planks to add a sawyer!" << std::endl;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}
+
 int main() {
 	GameState state = {
 		.trees_available = 0,
@@ -44,6 +82,7 @@ int main() {
 	while (true) {
 		std::this_thread::sleep_for(std::chrono::seconds(1)); // Simulate time passing
 		tick(state);
+		handle_input(state);
 		tick_count++;
 		std::cout << "Tick: " << tick_count << " | Trees: " << state.trees_available
 				  << " | Logs: " << state.logs
