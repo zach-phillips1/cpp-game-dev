@@ -34,7 +34,7 @@ void tick(GameState& state) {
 	}
 }
 
-void handle_input(GameState& state) {
+bool handle_input(GameState& state) {
 	if (_kbhit()) {
 		char input = _getch();
 		switch (input) {
@@ -46,7 +46,7 @@ void handle_input(GameState& state) {
 				} else {
 					std::cout << "Not enough planks to add an arborist!" << std::endl;
 				}
-				break;
+				return true;
 			case 'l': // Add a lumberjack
 				if (state.planks >= 5) {
 					state.planks -= 5;
@@ -55,7 +55,7 @@ void handle_input(GameState& state) {
 				} else {
 					std::cout << "Not enough planks to add a lumberjack!" << std::endl;
 				}
-				break;
+				return true;
 			case 's': // Add a sawyer
 				if (state.planks >= 5) {
 					state.planks -= 5;
@@ -64,21 +64,22 @@ void handle_input(GameState& state) {
 				} else {
 					std::cout << "Not enough planks to add a sawyer!" << std::endl;
 				}
-				break;
+				return true;
 			case 'q': // Quit the game
 				std::cout << "Quitting the game..." << std::endl;
 				saveGame(state, "savegame.txt");
-				exit(0);
-				break;
+				return false;
 			default:
-				break;
+				return true;
 		}
 	}
+	return true;
 }
 
 void saveGame(const GameState& state, const std::string& filename) {
 	std::ofstream saveFile(filename);
 	if (saveFile.is_open()) {
+		saveFile << state.tick_count << std::endl;
 		saveFile << state.trees_available << std::endl;
 		saveFile << state.logs << std::endl;
 		saveFile << state.planks << std::endl;
@@ -95,6 +96,7 @@ void saveGame(const GameState& state, const std::string& filename) {
 void loadGame(GameState& state, const std::string& filename) {
 	std::ifstream loadFile(filename);
 	if (loadFile.is_open()) {
+		loadFile >> state.tick_count;
 		loadFile >> state.trees_available;
 		loadFile >> state.logs;
 		loadFile >> state.planks;
@@ -120,16 +122,19 @@ int main() {
 	};
 
 	loadGame(state, "savegame.txt");
+	
 
 	while (true) {
 		std::this_thread::sleep_for(std::chrono::seconds(1)); // Simulate time passing
 		tick(state);
-		tick_count++;
-		if (tick_count % 60 == 0) {
+		state.tick_count++;
+		if (state.tick_count % 60 == 0) {
 			saveGame(state, "savegame.txt");
 		}
-		handle_input(state);
-		std::cout << "Tick: " << tick_count << " | Trees: " << state.trees_available
+		if (!handle_input(state)) {
+			break;
+		}
+		std::cout << "Tick: " << state.tick_count << " | Trees: " << state.trees_available
 				  << " | Logs: " << state.logs
 			<< " | Planks: " << state.planks << std::endl;
 		
