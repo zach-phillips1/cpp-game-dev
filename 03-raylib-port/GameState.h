@@ -9,6 +9,7 @@ struct GameState {
     int arborists;
     int lumberjacks;
     int sawyers;
+    std::string last_message;
 };
 
 void tick(GameState& state);

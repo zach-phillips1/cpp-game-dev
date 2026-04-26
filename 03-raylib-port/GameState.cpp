@@ -20,52 +20,6 @@ void tick(GameState& state) {
 	}
 }
 
-// TODO: Move handle_input to renderer.cpp and make it more modular when included in raylib.
-bool handle_input(GameState& state) {
-	if (_kbhit()) {
-		char input = _getch();
-		switch (input) {
-		case 'a': // Add an arborist
-			if (state.planks >= 5) {
-				state.planks -= 5;
-				state.arborists++;
-				std::cout << "Added an arborist!" << std::endl;
-			}
-			else {
-				std::cout << "Not enough planks to add an arborist!" << std::endl;
-			}
-			return true;
-		case 'l': // Add a lumberjack
-			if (state.planks >= 5) {
-				state.planks -= 5;
-				state.lumberjacks++;
-				std::cout << "Added a lumberjack!" << std::endl;
-			}
-			else {
-				std::cout << "Not enough planks to add a lumberjack!" << std::endl;
-			}
-			return true;
-		case 's': // Add a sawyer
-			if (state.planks >= 5) {
-				state.planks -= 5;
-				state.sawyers++;
-				std::cout << "Added a sawyer!" << std::endl;
-			}
-			else {
-				std::cout << "Not enough planks to add a sawyer!" << std::endl;
-			}
-			return true;
-		case 'q': // Quit the game
-			std::cout << "Quitting the game..." << std::endl;
-			saveGame(state, "savegame.txt");
-			return false;
-		default:
-			return true;
-		}
-	}
-	return true;
-}
-
 void saveGame(const GameState& state, const std::string& filename) {
 	std::ofstream saveFile(filename);
 	if (saveFile.is_open()) {
