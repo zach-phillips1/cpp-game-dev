@@ -4,7 +4,9 @@
 #include <chrono>
 
 int main() {
+
 	GameState state = {0, 0, 0, 0, 1, 1, 1, ""};
+	state.grid.assign(15, std::vector<TileType>(15, TileType::Empty));
 	init_renderer(800, 600, "Lumber Tycoon");
 	loadGame(state, "savegame.txt");
 	auto last_tick = std::chrono::steady_clock::now();

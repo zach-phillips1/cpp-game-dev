@@ -1,5 +1,14 @@
 #pragma once
 #include <string>
+#include <vector>
+
+enum class TileType {
+    Empty,
+    Tree,
+    Lumberjack,
+    Sawyer,
+    Arborist
+};
 
 struct GameState {
     int tick_count;
@@ -10,6 +19,8 @@ struct GameState {
     int lumberjacks;
     int sawyers;
     std::string last_message;
+    std::vector<std::vector<TileType>> grid;
+    TileType selected_building = TileType::Empty;
 };
 
 void tick(GameState& state);
