@@ -5,4 +5,7 @@ project(astar)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(astar main.cpp)
+add_executable(astar 
+	main.cpp
+	astar.cpp
+)
